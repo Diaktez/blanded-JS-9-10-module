@@ -14,3 +14,29 @@
       <p>Текст</p>
   </li>
 */
+
+import { refs } from './js/refs.js';
+import { addTask } from './js/tasks.js';
+import { renderTasks } from './js/render-tasks.js';
+import { initThemeSwitcher } from './js/theme-switcher.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Применяем сохранённую тему и запускаем переключатель
+  initThemeSwitcher(refs.themeToggleBtn, refs.body);
+
+  // Рендерим задачи
+  renderTasks();
+});
+
+// Обработка формы
+refs.form.addEventListener('submit', e => {
+  e.preventDefault();
+  const title = refs.nameInput.value.trim();
+  const description = refs.descInput.value.trim();
+  if (!title || !description) return;
+
+  addTask(title, description);
+  renderTasks();
+  refs.nameInput.value = '';
+  refs.descInput.value = '';
+});
